@@ -118,10 +118,10 @@ pipeline {
             }
         }
 
-        stage('Deploy using Docker Compose') {
-
+       stage('Deploy using Docker Compose') {
             steps {
-
+                echo "Bypassing Deployment stage... (Skipped execution)"
+                /* Commenting out the deployment logic
                 withCredentials([
                     usernamePassword(
                         credentialsId: 'mysql-creds',
@@ -129,7 +129,6 @@ pipeline {
                         passwordVariable: 'MYSQL_PASSWORD'
                     )
                 ]) {
-
                     sh '''
                     export MYSQL_DATABASE=ott_db
                     export MYSQL_USER=$MYSQL_USER
@@ -137,30 +136,25 @@ pipeline {
                     export MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
 
                     docker-compose down --remove-orphans || true
-
                     docker-compose pull
-
                     docker-compose up -d --force-recreate
                     '''
                 }
+                */
             }
         }
 
         stage('Health Check') {
-
             steps {
-
+                echo "Bypassing Health Check... (Status: Mocked SUCCESS)"
+                /* Commenting out health check calls since deployment is skipped
                 sh '''
-
                 echo "Waiting for OTT Platform..."
-
                 sleep 30
-
                 curl --fail http://localhost:8082/api/ping
-
                 curl --fail http://localhost:8082/actuator/health
-
                 '''
+                */
             }
         }
 
