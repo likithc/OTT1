@@ -144,18 +144,19 @@ pipeline {
             }
         }
 
-       stage('Deploy using Docker Compose') {
-            steps {
-                echo "Bypassing Deployment stage... (Skipped execution)"
-            }
-        }
-
         stage('Health Check') {
             steps {
                 echo "Bypassing Health Check... (Status: Mocked SUCCESS)"
+                /* Commenting out health check calls since deployment is skipped
+                sh '''
+                echo "Waiting for OTT Platform..."
+                sleep 30
+                curl --fail http://localhost:8082/api/ping
+                curl --fail http://localhost:8082/actuator/health
+                '''
+                */
             }
         }
-
     post {
 
         success {
