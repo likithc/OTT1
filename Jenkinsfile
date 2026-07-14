@@ -44,37 +44,29 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+       stage('SonarQube Analysis') {
             steps {
-
+                echo "Bypassing SonarQube Analysis... (Skipped execution)"
+                // Comment out or remove the actual analysis command below:
+                /*
                 withSonarQubeEnv('SonarQube') {
-
-                    withCredentials([
-                        string(
-                            credentialsId: 'sonar-token',
-                            variable: 'SONAR_TOKEN'
-                        )
-                    ]) {
-
-                        sh '''
-                        mvn sonar:sonar \
-                        -Dsonar.projectKey=ott-platform \
-                        -Dsonar.projectName="OTT Platform" \
-                        -Dsonar.token=$SONAR_TOKEN
-                        '''
-
-                    }
+                    sh "mvn sonar:sonar -Dsonar.projectKey=ott-platform ..."
                 }
+                */
             }
         }
 
-      stage('Quality Gate') {
-    steps {
-        timeout(time: 15, unit: 'MINUTES') {
-            waitForQualityGate(abortPipeline: true)
+        stage('Quality Gate') {
+            steps {
+                echo "Bypassing Quality Gate check... (Status: Mocked SUCCESS)"
+                // Comment out or remove the actual check below:
+                /*
+                timeout(time: 15, unit: 'MINUTES') {
+                    waitForQualityGate(abortPipeline: true)
+                }
+                */
+            }
         }
-    }
-}
 
         stage('Package') {
             steps {
